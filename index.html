@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>חלל השחקים</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="starfield" aria-hidden="true"></div>
+  <div class="deep-space" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <section id="startScreen" class="screen active" aria-labelledby="gameTitle">
+      <div class="panel hero">
+        <p class="eyebrow">משחק חשבון בין כוכבי הלכת</p>
+        <h1 id="gameTitle">חלל השחקים</h1>
+        <p class="subtitle">יוצאות למסע מהשמש עד פלוטו, פותרות תרגילים, ומגיעות לחללית של החייזרים.</p>
+        <p class="credit">המשחק נוצר ע"י עלמא נגרין</p>
+
+        <div class="start-scene" aria-hidden="true">
+          <div class="sun-art"></div>
+          <div class="orbit orbit-1"><span class="planet p1"></span></div>
+          <div class="orbit orbit-2"><span class="planet p2"></span></div>
+          <div class="orbit orbit-3"><span class="planet p3"></span></div>
+          <div class="intro-ship ship-a ship-art">
+            <span class="window"></span>
+            <span class="door"></span>
+            <span class="wing wing-left"></span>
+            <span class="wing wing-right"></span>
+            <span class="flame"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel setup">
+        <label for="playerName">שם השחקנית</label>
+        <input id="playerName" type="text" maxlength="20" placeholder="למשל: נועה" autocomplete="name">
+
+        <p class="group-title">בחירת חללית</p>
+        <div class="ship-picker" role="radiogroup" aria-label="בחירת חללית">
+          <label class="ship-option">
+            <input type="radio" name="shipChoice" value="ship-a" checked>
+            <span class="ship-thumb ship-a ship-art">
+              <span class="window"></span>
+              <span class="door"></span>
+              <span class="wing wing-left"></span>
+              <span class="wing wing-right"></span>
+              <span class="flame"></span>
+            </span>
+            <span>שביט</span>
+          </label>
+
+          <label class="ship-option">
+            <input type="radio" name="shipChoice" value="ship-b">
+            <span class="ship-thumb ship-b ship-art">
+              <span class="window"></span>
+              <span class="door"></span>
+              <span class="wing wing-left"></span>
+              <span class="wing wing-right"></span>
+              <span class="flame"></span>
+            </span>
+            <span>אורורה</span>
+          </label>
+
+          <label class="ship-option">
+            <input type="radio" name="shipChoice" value="ship-c">
+            <span class="ship-thumb ship-c ship-art">
+              <span class="window"></span>
+              <span class="door"></span>
+              <span class="wing wing-left"></span>
+              <span class="wing wing-right"></span>
+              <span class="flame"></span>
+            </span>
+            <span>נובה</span>
+          </label>
+        </div>
+
+        <button id="startButton" class="primary-btn">התחל משחק</button>
+      </div>
+
+      <div class="panel leaderboard">
+        <div class="leaderboard-head">
+          <h2>טבלת שיאים</h2>
+        </div>
+        <p class="file-status">השיאים נשמרים אוטומטית במכשיר הזה.</p>
+        <table aria-label="טבלת שיאים">
+          <thead>
+            <tr>
+              <th>מקום</th>
+              <th>שם</th>
+              <th>ניקוד</th>
+              <th>תאריך</th>
+            </tr>
+          </thead>
+          <tbody id="scoresBody">
+            <tr>
+              <td colspan="4">עדיין אין שיאים</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen" aria-live="polite">
+      <header class="hud panel">
+        <div class="hud-item">
+          <p class="label">שחקנית</p>
+          <p id="hudPlayer" class="value">-</p>
+        </div>
+        <div class="hud-item">
+          <p class="label">שלב</p>
+          <p id="hudStage" class="value">-</p>
+        </div>
+        <div class="hud-item">
+          <p class="label">ניקוד</p>
+          <p id="hudScore" class="value">0</p>
+        </div>
+      </header>
+
+      <section class="panel progress-panel">
+        <h2 id="routeTitle">מסלול התקדמות במערכת השמש</h2>
+        <div id="progressTrack" class="progress-track" aria-labelledby="routeTitle">
+          <div class="progress-line"></div>
+          <ul id="progressNodes" class="progress-nodes"></ul>
+          <div id="progressShip" class="progress-ship ship-a ship-art" aria-hidden="true">
+            <span class="window"></span>
+            <span class="door"></span>
+            <span class="wing wing-left"></span>
+            <span class="wing wing-right"></span>
+            <span class="flame"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel planet-panel">
+        <div id="prevPlanetWrap" class="side-planet-wrap">
+          <div id="prevPlanet" class="side-planet"></div>
+          <p id="prevPlanetLabel" class="side-label">-</p>
+        </div>
+
+        <div class="stage-planet-wrap">
+          <div id="stagePlanet" class="stage-planet node-mercury">
+            <div id="landedShip" class="landed-ship ship-a ship-art" aria-hidden="true">
+              <span class="window"></span>
+              <span class="door"></span>
+              <span class="wing wing-left"></span>
+              <span class="wing wing-right"></span>
+              <span class="flame"></span>
+            </div>
+
+            <div class="exercise-core">
+              <p id="stageName" class="stage-name">שלב 1: חמה</p>
+              <p id="questionCounter" class="question-counter">תרגיל 1 מתוך 5</p>
+              <p id="questionText" class="question-text">7 + 5 = ?</p>
+              <div id="answersGrid" class="answers-grid">
+                <button class="answer-btn">12</button>
+                <button class="answer-btn">10</button>
+                <button class="answer-btn">14</button>
+              </div>
+              <p id="feedbackText" class="feedback"></p>
+            </div>
+          </div>
+        </div>
+
+        <div id="nextPlanetWrap" class="side-planet-wrap">
+          <div id="nextPlanet" class="side-planet"></div>
+          <p id="nextPlanetLabel" class="side-label">-</p>
+        </div>
+      </section>
+    </section>
+
+    <section id="finishScreen" class="screen" aria-labelledby="finishTitle">
+      <div class="panel finish">
+        <div class="alien-scene" aria-hidden="true">
+          <div class="alien-ship"></div>
+          <div class="alien-head"></div>
+        </div>
+
+        <h2 id="finishTitle">הגעת לחללית החייזרים!</h2>
+        <p class="alien-greeting">"שלום, אורחת אמיצה מכדור הארץ!"</p>
+        <p id="finalSummary" class="final-summary"></p>
+
+        <div class="certificate">
+          <p>תעודת מסע בין-כוכבית</p>
+          <p id="certificateName">-</p>
+          <p id="certificateScore">0 נקודות</p>
+        </div>
+
+        <button id="speakCertificateBtn" class="ghost-btn speak-btn">החייזרים מקריאים את התעודה</button>
+        <button id="restartButton" class="primary-btn">משחק חדש</button>
+      </div>
+
+      <div class="panel leaderboard small">
+        <h3>טבלת שיאים</h3>
+        <table aria-label="טבלת שיאים בסיום">
+          <thead>
+            <tr>
+              <th>מקום</th>
+              <th>שם</th>
+              <th>ניקוד</th>
+              <th>תאריך</th>
+            </tr>
+          </thead>
+          <tbody id="scoresBodyFinish">
+            <tr>
+              <td colspan="4">עדיין אין שיאים</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
