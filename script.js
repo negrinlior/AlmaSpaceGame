@@ -828,7 +828,7 @@ function speakCertificateText() {
     return;
   }
 
-  const text = `שלום ${state.playerName}. תעודת מסע בין כוכבית. כל הכבוד! סיימת את המשחק חלל השחקים עם ${state.score} נקודות.`;
+  const text = `שלום ${state.playerName}. תעודת מסע בין כוכבית. כל הכבוד! סיימת את המשחק חלל המשחקים עם ${state.score} נקודות.`;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "he-IL";
   utterance.rate = 0.95;
